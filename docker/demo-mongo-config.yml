@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-mongo-cm
+data:
+  application-DEV.yaml: |-
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: health,beans,loggers,env
+      endpoint:
+        health:
+          show-details: "ALWAYS"
+    ---
+    spring:
+      data:
+        mongodb:
+          ##uri: mongodb+srv://Cluster78645:V3FpdGtSfFRH@cluster78645.ezeb8yv.mongodb.net/
+          uri: mongodb://Cluster78645:V3FpdGtSfFRH@ac-7kz4sms-shard-00-02.ezeb8yv.mongodb.net:27017,ac-7kz4sms-shard-00-01.ezeb8yv.mongodb.net:27017,ac-7kz4sms-shard-00-00.ezeb8yv.mongodb.net:27017/users?ssl=true&replicaSet=atlas-m7izar-shard-0&authSource=admin&retryWrites=true&w=majority
+          database: users
+      ##config:
+        ##activate:
+          ##on-profile: docker
+          ##data:
+          ##mongodb:
+          ##host: mongodb
+          ##uri: mongodb://127.0.0.1:27017/users?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.8.2
+    
+    
+    logging:
+      level:
+        org.springframework.data.mongodb.core.MongoTemplate: DEBUG

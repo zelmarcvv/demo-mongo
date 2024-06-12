@@ -1,0 +1,14 @@
+memoriaRequerida: 800Mi
+cpuRequerida: 200m
+#  APP_NAME=demo-mongo
+appName: demo-mongo
+#  ENV=DEV
+env: DEV
+#  IMAGE=zelmarcvv/demo-mongo
+image: zelmarcvv/demo-mongo
+#  SPRING_PROFILES_ACTIVE=DEV
+springProfileActive: DEV
+#  ROUTER_HOST=demo-mongo.console.apps-crc.testing
+routerHost: demo-mongo.console.apps-crc.testing
+#  REPLICAS=1
+replicas: 1

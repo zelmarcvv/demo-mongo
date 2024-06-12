@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  user:
+    build: demo-mongo
+    mem_limit: 512m
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker

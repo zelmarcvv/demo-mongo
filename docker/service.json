@@ -1,0 +1,49 @@
+{
+  "apiVersion": "v1",
+  "kind": "Service",
+  "metadata": {
+    "labels": {
+      "app": "demo-mongo"
+    },
+    "name": "demo-mongo"
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "8080-tcp",
+        "port": 8080,
+        "protocol": "TCP",
+        "targetPort": 8080
+      },
+      {
+        "name": "80-tcp",
+        "port": 80,
+        "protocol": "TCP",
+        "targetPort": 8080
+      },
+      {
+        "name": "10334-tcp",
+        "port": 10334,
+        "protocol": "TCP",
+        "targetPort": 10334
+      },
+      {
+        "name": "57743-tcp",
+        "port": 57743,
+        "protocol": "TCP",
+        "targetPort": 57743
+      },
+      {
+        "name": "443-tcp",
+        "port": 443,
+        "protocol": "TCP",
+        "targetPort": 443
+      }
+
+    ],
+    "selector": {
+      "app": "demo-mongo"
+    },
+    "type": "ClusterIP"
+  }
+}

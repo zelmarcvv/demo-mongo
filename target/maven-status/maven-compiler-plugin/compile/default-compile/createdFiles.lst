@@ -1,0 +1,8 @@
+com/sample/mongo/model/UserRequest.class
+com/sample/mongo/repository/UserRepository.class
+com/sample/mongo/service/impl/UserServiceImpl.class
+com/sample/mongo/model/UserResponse.class
+com/sample/mongo/service/UserService.class
+com/sample/mongo/document/User.class
+com/sample/mongo/controller/UserController.class
+com/sample/mongo/DemoMongoApplication.class

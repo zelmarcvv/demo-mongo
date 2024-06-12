@@ -1,0 +1,75 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: demo-mongo
+    application: demo-mongo
+    createdBy: ZCVV
+  name: demo-mongo
+  namespace: tst-namespace-default
+  resourceVersion: "60323"
+  uid: b699052f-e1f1-46ae-a941-b166d1214db4
+spec:
+  host: demo-mongo.console.apps-crc.testing
+  port:
+    targetPort: 8080-tcp
+  tls:
+    certificate: |-
+      -----BEGIN CERTIFICATE-----
+      MIID4zCCAsugAwIBAgIUP590YZ20IqHJ5RKfjFm5Q6NuCiAwDQYJKoZIhvcNAQEL
+      BQAwgYAxCzAJBgNVBAYTAk1YMQ0wCwYDVQQIDARDRE1YMQwwCgYDVQQHDANNRVgx
+      DTALBgNVBAoMBFRFU1QxDTALBgNVBAsMBFRFU1QxEjAQBgNVBAMMCWxvY2FsaG9z
+      dDEiMCAGCSqGSIb3DQEJARYTemVsbWFyY3Z2QGdtYWlsLmNvbTAeFw0yNDAxMTYy
+      MzEzNDFaFw0yNTAxMTUyMzEzNDFaMIGAMQswCQYDVQQGEwJNWDENMAsGA1UECAwE
+      Q0RNWDEMMAoGA1UEBwwDTUVYMQ0wCwYDVQQKDARURVNUMQ0wCwYDVQQLDARURVNU
+      MRIwEAYDVQQDDAlsb2NhbGhvc3QxIjAgBgkqhkiG9w0BCQEWE3plbG1hcmN2dkBn
+      bWFpbC5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC/Y24FA5aB
+      RMdvvx97N+NFBjMK+49A5JqMc/MAdMn6aFV4jFjoIkak4+4GQaVUi4vEpcVv+tQ6
+      mlD+WCZOObLR1CoNoim5bwoj6PZnKwmWINYzL+2OGOfhAgHWe9GlXwrY9hrdpwLf
+      wrhD8rudccCn/sH9Q7O7+Se9KVeB5AhwrAtsTh9bEu1v9B1Yf6LKFZ1ORSTQ4awZ
+      8xIKfHfwnKPKkwqeX89LflzS/P9ZESyLstpV43cn7frTj0TtDffHFOEJSIH/7GJP
+      znV4m/e9lJ8U+ek3TyvtjtWvRMPADZuxFqpFofeNdNqEMwNiW06CwehGYrBN/LlV
+      5b1/mpd5bKDlAgMBAAGjUzBRMB0GA1UdDgQWBBQu0mU/AOwolSvZvZf450oU5Clr
+      azAfBgNVHSMEGDAWgBQu0mU/AOwolSvZvZf450oU5ClrazAPBgNVHRMBAf8EBTAD
+      AQH/MA0GCSqGSIb3DQEBCwUAA4IBAQC62arJHYm/ROnTUtA5FQq1j14RVTUozvxt
+      o+C+96gAo5OjLzlPamyx1sHvSvKvIY1NI+AT3dD4zpd4acgtIedpexYOVcJ4sWMP
+      96ampUMSJB9FfKaov1v6O++G4nT9xUkkPPOjQhq89RkJtkQ5G+0nEN1x+I4dttNB
+      VDmWIW7SOGXOdwAHqJlNKWw+jGCr1OLGxuXkclKj783xlEOHhjpNb+VPAkDXBNoC
+      W/2rzr+LinbVxtNpEToh0YUFuk6N10YDndTXGvm5MzsFG4EocmXECu0wwIiXJcWm
+      XE1vb3nh+LjXlzCMm49rcWfWzeg7g4y4W+psz8IooMb1FxDCfzJ6
+      -----END CERTIFICATE-----
+    key: |-
+      -----BEGIN PRIVATE KEY-----
+      MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC/Y24FA5aBRMdv
+      vx97N+NFBjMK+49A5JqMc/MAdMn6aFV4jFjoIkak4+4GQaVUi4vEpcVv+tQ6mlD+
+      WCZOObLR1CoNoim5bwoj6PZnKwmWINYzL+2OGOfhAgHWe9GlXwrY9hrdpwLfwrhD
+      8rudccCn/sH9Q7O7+Se9KVeB5AhwrAtsTh9bEu1v9B1Yf6LKFZ1ORSTQ4awZ8xIK
+      fHfwnKPKkwqeX89LflzS/P9ZESyLstpV43cn7frTj0TtDffHFOEJSIH/7GJPznV4
+      m/e9lJ8U+ek3TyvtjtWvRMPADZuxFqpFofeNdNqEMwNiW06CwehGYrBN/LlV5b1/
+      mpd5bKDlAgMBAAECggEAFfF2ecixhty16RAGsf/0ZMOTMp0pDY2oUpYwtEqvpbA0
+      rH+a6fKUGu+vKLR6Gjltqvw+qNofXyC2TJMawTlIUVp7/9gp5ILgrMFXDvkWPkpB
+      hNjn6bTdUSUDxO2pWcaN3dZJukQdxj3zFodMD38tUZWZ9EnA37pvXfbRe6kDdrdv
+      4BK67GzVwHS+IXkpEYnSAUmWWurNtD8uOx78GqonoSYZoieuXPRxB+FnGXK2aUU6
+      xjj8oBx5u1AN3KdEVEg4KYP3GugqcU9nv65tTXTUcGg3LbnQwMp7MXSwMXYXOS4e
+      oh/cIprYM6FqW2+IgEP7t+88GcacAydQk/lv2Gmq+QKBgQD8EbwdGGlhT4lp3C4+
+      xxINqanr2EsetoF0L7LuiTaUY1bfdadm9HE1UVzjK1fhYR8IhqWhLsqvrnnn8PqT
+      qHsJZ5Em1kw8RfaP67SSjcAS8Oz3l/gyo9PnQ7/KcnAwMbXKfEgDIT4nVkXZK6v5
+      GuWSXNhPlG7hXVf3e13a28KHwwKBgQDCX3Ssxi4BJXE49qcGBgzGhpIaob0qjOkd
+      8lJ0kK6v08pZWVO/eADjw8Yqqc/rtBhZbP4YtmRNzzwppst4cMIqbiFcJ6yj6O/p
+      8URwtNWBQ7aOniXCwXozCeEtsoUSH5jBQHE/58kJOS63KkmJD/G7X+85GfJ+K9FP
+      Ebp10vdSNwKBgQD4gfeGa8HAySw9LHB/Pb2DsMgwFu6AWgeoZzotxyMDCijkZ1bh
+      vo45tXwxDlM2hIyW2EBEdyAmMYpH66DuoASk0fEda9p+9a7OVt+QOKWrRtEojC+K
+      pU9NSdK0oTwPl4KVHQ/V3hkrqPd10oNaNHUuZdBwLHNgRalq+LogAdZ4BwKBgF4P
+      2aOeyDaPywn4+v0EQnx0NRIkQSntRQbT9KkqNw8pm9u/SbL3vN58KFMPGGqFHd9w
+      ykplQYcSCZhSelbPonbsEsLJBFfR6wA4XJl6OXQzs42y5K0p+hvm5Qy7PoB1v/ON
+      XwDBB12qSXwkP6/PgnjdxSPJ9bqvM7xi5OwN6tfjAoGBAKvgCNE1Y56Sxg0axHU8
+      CC0ergI6+rH3y+FZHMNTJmOqhLZwqnbIVIkqqgHq3+As/4cIRBCXFIXH0+szpmDV
+      nXoU8ZVsCoEbuYyu/c4yKnsdeoM7oMDXGG4o8BQvvr0JyZIot5knqppLzq1TyRCT
+      A+Emyu1UuOlhctm3FWoTJVZI
+      -----END PRIVATE KEY-----
+    termination: edge
+  to:
+    kind: Service
+    name: demo-mongo
+    weight: 100
+  wildcardPolicy: None
