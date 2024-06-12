@@ -1,0 +1,37 @@
+{
+  "apiVersion": "v1",
+  "kind": "Service",
+  "metadata": {
+    "labels": {
+      "app": "mongo-test"
+    },
+    "name": "mongo-test"
+  },
+  "spec": {
+    "ports": [
+      {
+        "name": "27017-tcp",
+        "port": 27017,
+        "protocol": "TCP",
+        "targetPort": 27017
+      },
+      {
+        "name": "80-tcp",
+        "port": 80,
+        "protocol": "TCP",
+        "targetPort": 8080
+      },
+      {
+        "name": "443-tcp",
+        "port": 443,
+        "protocol": "TCP",
+        "targetPort": 443
+      }
+
+    ],
+    "selector": {
+      "app": "mongo-test"
+    },
+    "type": "ClusterIP"
+  }
+}

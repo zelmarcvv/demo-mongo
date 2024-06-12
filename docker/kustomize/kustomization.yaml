@@ -1,0 +1,8 @@
+resources:
+  - deployment.yaml
+patches:
+  - target:
+      group: app
+      version: v1
+      kind: Deployment
+    path: patch.yaml

@@ -1,0 +1,253 @@
+{
+    "apiVersion": "template.openshift.io/v1",
+    "kind": "Template",
+    "metadata": {
+        "name": "${APP_NAME}-template"
+    },
+    "labels": {
+        "application": "demo-mongo",
+        "createdBy": "ZCVV"
+    },
+    "objects": [
+        {
+            "kind": "Deployment",
+            "apiVersion": "apps/v1",
+            "metadata": {
+                "name": "${APP_NAME}",
+                "labels": {
+                    "app": "${APP_NAME}"
+                }
+            },
+            "spec": {
+                "replicas": 1,
+                "selector": {
+                    "matchLabels": {
+                        "app": "${APP_NAME}"
+                    }
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "${APP_NAME}"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "${APP_NAME}",
+                                "image": "${IMAGE}",
+                                "volumeMounts": [
+                                    {
+                                        "name": "demo-mongo-volume",
+                                        "readOnly": false,
+                                        "mountPath": "/usr/app/config/"
+                                    }
+                                ],
+                                "env": [
+                                    {
+                                        "name": "ENVIRONMENT",
+                                        "value": "DEV"
+                                    },
+                                    {
+                                        "name": "SPRING_CONFIG_LOCATION",
+                                        "value": "file:/usr/app/config/"
+                                    },
+                                    {
+                                        "name": "SPRING_APPLICATION_NAME",
+                                        "value": "${APP_NAME}"
+                                    },
+                                    {
+                                        "name": "MY_CPU",
+                                        "valueFrom": {
+                                            "configMapKeyRef": {
+                                                "key": "CPU_REQUEST",
+                                                "name": "parameter-cm"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "MY_REPLICAS",
+                                        "valueFrom": {
+                                            "configMapKeyRef": {
+                                                "key": "REPLICAS_NUM",
+                                                "name": "parameter-cm"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "SPRING_PROFILES_ACTIVE",
+                                        "valueFrom": {
+                                            "configMapKeyRef": {
+                                                "key": "ENVIRONMENT_DEFAULT",
+                                                "name": "parameter-cm"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "resources": {
+                                    "requests": {
+                                        "cpu": "${REQUESTS_CPU_DEFAULT}",
+                                        "memory": "200Mi"
+                                    },
+                                    "limits": {
+                                        "cpu": "${LIMITS_CPU_DEFAULT}",
+                                        "memory": "400Mi"
+                                    }
+                                }
+                            }
+                        ],
+                        "volumes": [
+                            {
+                                "name": "demo-mongo-volume",
+                                "projected": {
+                                    "sources": [
+                                        {
+                                            "configMap": {
+                                                "name": "demo-mongo-cm"
+                                            }
+                                        },
+                                        {
+                                            "configMap": {
+                                                "name": "parameter-cm"
+                                            }
+                                        }
+
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                "strategy": {}
+            },
+            "status": {}
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "labels": {
+                    "app": "${APP_NAME}"
+                },
+                "name": "${APP_NAME}"
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "8080-tcp",
+                        "port": 8080,
+                        "protocol": "TCP",
+                        "targetPort": 8080
+                    },
+                    {
+                        "name": "80-tcp",
+                        "port": 80,
+                        "protocol": "TCP",
+                        "targetPort": 8080
+                    },
+                    {
+                        "name": "10334-tcp",
+                        "port": 10334,
+                        "protocol": "TCP",
+                        "targetPort": 10334
+                    },
+                    {
+                        "name": "57743-tcp",
+                        "port": 57743,
+                        "protocol": "TCP",
+                        "targetPort": 57743
+                    },
+                    {
+                        "name": "443-tcp",
+                        "port": 443,
+                        "protocol": "TCP",
+                        "targetPort": 443
+                    }
+
+                ],
+                "selector": {
+                    "app": "${APP_NAME}"
+                },
+                "type": "ClusterIP"
+            }
+        },
+        {
+            "apiVersion": "route.openshift.io/v1",
+            "kind": "Route",
+            "metadata": {
+                "labels": {
+                    "app": "${APP_NAME}"
+                },
+                "name": "${APP_NAME}"
+            },
+            "spec": {
+                "host": "${ROUTER_HOST}",
+                "port": {
+                    "targetPort": "8080-tcp"
+                },
+                "to": {
+                    "kind": "Service",
+                    "name": "${APP_NAME}"
+                },
+                "tls": {
+                    "termination": "edge",
+                    "key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC/Y24FA5aBRMdv\nvx97N+NFBjMK+49A5JqMc/MAdMn6aFV4jFjoIkak4+4GQaVUi4vEpcVv+tQ6mlD+\nWCZOObLR1CoNoim5bwoj6PZnKwmWINYzL+2OGOfhAgHWe9GlXwrY9hrdpwLfwrhD\n8rudccCn/sH9Q7O7+Se9KVeB5AhwrAtsTh9bEu1v9B1Yf6LKFZ1ORSTQ4awZ8xIK\nfHfwnKPKkwqeX89LflzS/P9ZESyLstpV43cn7frTj0TtDffHFOEJSIH/7GJPznV4\nm/e9lJ8U+ek3TyvtjtWvRMPADZuxFqpFofeNdNqEMwNiW06CwehGYrBN/LlV5b1/\nmpd5bKDlAgMBAAECggEAFfF2ecixhty16RAGsf/0ZMOTMp0pDY2oUpYwtEqvpbA0\nrH+a6fKUGu+vKLR6Gjltqvw+qNofXyC2TJMawTlIUVp7/9gp5ILgrMFXDvkWPkpB\nhNjn6bTdUSUDxO2pWcaN3dZJukQdxj3zFodMD38tUZWZ9EnA37pvXfbRe6kDdrdv\n4BK67GzVwHS+IXkpEYnSAUmWWurNtD8uOx78GqonoSYZoieuXPRxB+FnGXK2aUU6\nxjj8oBx5u1AN3KdEVEg4KYP3GugqcU9nv65tTXTUcGg3LbnQwMp7MXSwMXYXOS4e\noh/cIprYM6FqW2+IgEP7t+88GcacAydQk/lv2Gmq+QKBgQD8EbwdGGlhT4lp3C4+\nxxINqanr2EsetoF0L7LuiTaUY1bfdadm9HE1UVzjK1fhYR8IhqWhLsqvrnnn8PqT\nqHsJZ5Em1kw8RfaP67SSjcAS8Oz3l/gyo9PnQ7/KcnAwMbXKfEgDIT4nVkXZK6v5\nGuWSXNhPlG7hXVf3e13a28KHwwKBgQDCX3Ssxi4BJXE49qcGBgzGhpIaob0qjOkd\n8lJ0kK6v08pZWVO/eADjw8Yqqc/rtBhZbP4YtmRNzzwppst4cMIqbiFcJ6yj6O/p\n8URwtNWBQ7aOniXCwXozCeEtsoUSH5jBQHE/58kJOS63KkmJD/G7X+85GfJ+K9FP\nEbp10vdSNwKBgQD4gfeGa8HAySw9LHB/Pb2DsMgwFu6AWgeoZzotxyMDCijkZ1bh\nvo45tXwxDlM2hIyW2EBEdyAmMYpH66DuoASk0fEda9p+9a7OVt+QOKWrRtEojC+K\npU9NSdK0oTwPl4KVHQ/V3hkrqPd10oNaNHUuZdBwLHNgRalq+LogAdZ4BwKBgF4P\n2aOeyDaPywn4+v0EQnx0NRIkQSntRQbT9KkqNw8pm9u/SbL3vN58KFMPGGqFHd9w\nykplQYcSCZhSelbPonbsEsLJBFfR6wA4XJl6OXQzs42y5K0p+hvm5Qy7PoB1v/ON\nXwDBB12qSXwkP6/PgnjdxSPJ9bqvM7xi5OwN6tfjAoGBAKvgCNE1Y56Sxg0axHU8\nCC0ergI6+rH3y+FZHMNTJmOqhLZwqnbIVIkqqgHq3+As/4cIRBCXFIXH0+szpmDV\nnXoU8ZVsCoEbuYyu/c4yKnsdeoM7oMDXGG4o8BQvvr0JyZIot5knqppLzq1TyRCT\nA+Emyu1UuOlhctm3FWoTJVZI\n-----END PRIVATE KEY-----",
+                    "certificate": "-----BEGIN CERTIFICATE-----\nMIID4zCCAsugAwIBAgIUP590YZ20IqHJ5RKfjFm5Q6NuCiAwDQYJKoZIhvcNAQEL\nBQAwgYAxCzAJBgNVBAYTAk1YMQ0wCwYDVQQIDARDRE1YMQwwCgYDVQQHDANNRVgx\nDTALBgNVBAoMBFRFU1QxDTALBgNVBAsMBFRFU1QxEjAQBgNVBAMMCWxvY2FsaG9z\ndDEiMCAGCSqGSIb3DQEJARYTemVsbWFyY3Z2QGdtYWlsLmNvbTAeFw0yNDAxMTYy\nMzEzNDFaFw0yNTAxMTUyMzEzNDFaMIGAMQswCQYDVQQGEwJNWDENMAsGA1UECAwE\nQ0RNWDEMMAoGA1UEBwwDTUVYMQ0wCwYDVQQKDARURVNUMQ0wCwYDVQQLDARURVNU\nMRIwEAYDVQQDDAlsb2NhbGhvc3QxIjAgBgkqhkiG9w0BCQEWE3plbG1hcmN2dkBn\nbWFpbC5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC/Y24FA5aB\nRMdvvx97N+NFBjMK+49A5JqMc/MAdMn6aFV4jFjoIkak4+4GQaVUi4vEpcVv+tQ6\nmlD+WCZOObLR1CoNoim5bwoj6PZnKwmWINYzL+2OGOfhAgHWe9GlXwrY9hrdpwLf\nwrhD8rudccCn/sH9Q7O7+Se9KVeB5AhwrAtsTh9bEu1v9B1Yf6LKFZ1ORSTQ4awZ\n8xIKfHfwnKPKkwqeX89LflzS/P9ZESyLstpV43cn7frTj0TtDffHFOEJSIH/7GJP\nznV4m/e9lJ8U+ek3TyvtjtWvRMPADZuxFqpFofeNdNqEMwNiW06CwehGYrBN/LlV\n5b1/mpd5bKDlAgMBAAGjUzBRMB0GA1UdDgQWBBQu0mU/AOwolSvZvZf450oU5Clr\nazAfBgNVHSMEGDAWgBQu0mU/AOwolSvZvZf450oU5ClrazAPBgNVHRMBAf8EBTAD\nAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQC62arJHYm/ROnTUtA5FQq1j14RVTUozvxt\no+C+96gAo5OjLzlPamyx1sHvSvKvIY1NI+AT3dD4zpd4acgtIedpexYOVcJ4sWMP\n96ampUMSJB9FfKaov1v6O++G4nT9xUkkPPOjQhq89RkJtkQ5G+0nEN1x+I4dttNB\nVDmWIW7SOGXOdwAHqJlNKWw+jGCr1OLGxuXkclKj783xlEOHhjpNb+VPAkDXBNoC\nW/2rzr+LinbVxtNpEToh0YUFuk6N10YDndTXGvm5MzsFG4EocmXECu0wwIiXJcWm\nXE1vb3nh+LjXlzCMm49rcWfWzeg7g4y4W+psz8IooMb1FxDCfzJ6\n-----END CERTIFICATE-----"
+                }
+            },
+            "immutable": "false"
+        }
+
+    ],
+    "parameters": [
+        {
+            "name": "IMAGE",
+            "required": false,
+            "description": "Docker image name, injected in pipeline execution."
+        },
+        {
+            "name": "APP_NAME",
+            "required": true,
+            "description": "Application Name."
+        },
+        {
+            "name": "ENV",
+            "required": true,
+            "description": "Environment."
+        },
+        {
+            "name": "SPRING_PROFILES_ACTIVE",
+            "required": true,
+            "description": "Spring active profiles."
+        },
+        {
+            "name": "ROUTER_HOST",
+            "required": true,
+            "description": "Application router host."
+        },
+        {
+            "name": "REPLICAS",
+            "required": true,
+            "description": "Application replicas"
+        },
+        {
+            "name": "LIMITS_CPU_DEFAULT",
+            "required": true,
+            "description": "limits CPU"
+        },
+        {
+            "name": "REQUESTS_CPU_DEFAULT",
+            "required": true,
+            "description": "requests CPU"
+        },
+        {
+            "name": "CPU",
+            "valueFrom": {
+                "configMapKeyRef": {
+                    "name": "parameter-cm",
+                    "key": "CPU_REQUEST"
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+APP_NAME=demo-mongo
+ENV=DEV
+IMAGE=zelmarcvv/demo-mongo
+SPRING_PROFILES_ACTIVE=DEV
+ROUTER_HOST=demo-mongo.console.apps-crc.testing
+REPLICAS=1
+LIMITS_CPU_DEFAULT=500m
+REQUESTS_CPU_DEFAULT=200m

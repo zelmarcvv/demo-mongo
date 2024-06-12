@@ -1,0 +1,20 @@
+{
+  "apiVersion": "route.openshift.io/v1",
+  "kind": "Route",
+  "metadata": {
+    "labels": {
+      "app": "demo-mongo"
+    },
+    "name": "demo-mongo"
+  },
+  "spec": {
+    "host": "demo-mongo.console.apps-crc.testing",
+    "port": {
+      "targetPort": "8080-tcp"
+    },
+    "to": {
+      "kind": "Service",
+      "name": "demo-mongo"
+    }
+  }
+}

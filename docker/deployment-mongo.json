@@ -1,0 +1,38 @@
+{
+    "kind": "Deployment",
+    "apiVersion": "apps/v1",
+    "metadata": {
+        "name": "mongo-test",
+        "creationTimestamp": null,
+        "labels": {
+            "app": "mongo-test"
+        }
+    },
+    "spec": {
+        "replicas": 1,
+        "selector": {
+            "matchLabels": {
+                "app": "mongo-test"
+            }
+        },
+        "template": {
+            "metadata": {
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "mongo-test"
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "name": "mongo-test",
+                        "image": "mongo:4.4.2",
+                        "resources": {}
+                    }
+                ]
+            }
+        },
+        "strategy": {}
+    },
+    "status": {}
+}
